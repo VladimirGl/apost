@@ -20,13 +20,13 @@ using namespace apost;
 int main() {
     setPrecision(1024);
 
-    const size_t min_n = 41;
+    const size_t min_n = 3;
     const size_t max_n = 50;
     
     const size_t prec = 100;
     const size_t n_iters = 20;
     
-    std::string fname = "leqs_time_4.csv";
+    std::string fname = "leqs_time.csv";
     
     std::mt19937 generator(std::random_device{}());
     std::uniform_real_distribution<double> distribution(-5, 5);
