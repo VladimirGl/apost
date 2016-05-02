@@ -1,3 +1,8 @@
+# Copyright (c) 2016 The Caroline authors. All rights reserved.
+# Use of this source file is governed by a MIT license that can be found in the
+# LICENSE file.
+# Author: Glazachev Vladimir <glazachev.vladimir@gmail.com>
+
 #ifndef APOST_STATICAL_H
 #define APOST_STATICAL_H
 
