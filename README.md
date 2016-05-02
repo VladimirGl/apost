@@ -19,7 +19,11 @@ $ make
 $ make install
 ```
 
-### Usage example
+### Examples
+
+There are several examples in example file. After compilation them can be found in build/bin folder.
+
+### Library usage example
 
 Then you can build your own programs. Example program:
 
