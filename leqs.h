@@ -1,8 +1,3 @@
-# Copyright (c) 2016 The Caroline authors. All rights reserved.
-# Use of this source file is governed by a MIT license that can be found in the
-# LICENSE file.
-# Author: Glazachev Vladimir <glazachev.vladimir@gmail.com>
-
 #ifndef LEQS_H
 #define LEQS_H
 
@@ -41,7 +36,7 @@ Matrix<apost::ProxyIntervalResult> linear_solve_apost(Matrix<IntervalT> M) {
 // (withoud pivoting). Can't be used with dynamic aposteriori method due to 
 // many output values.
 template<class IntervalT>
-Matrix<IntervalT> linear_solve(Matrix<IntervalT> &M) {
+Matrix<IntervalT> linear_solve(Matrix<IntervalT> M) {
     size_t n = M.nrow();
 
     gauss_elimination(M);
@@ -78,8 +73,9 @@ Matrix<ArbInterval> leq_inv(Matrix<ArbInterval> M) {
     if (n == 1) {
         return Matrix<ArbInterval>(1, 1, 0);
     }
-    
+
     Matrix<ArbInterval> xs = linear_solve(M);
+    gauss_elimination(M);
 
     for (int c = 0; c < n; ++c) {
     
@@ -87,23 +83,24 @@ Matrix<ArbInterval> leq_inv(Matrix<ArbInterval> M) {
         ArbInterval x = f;
         Matrix<ArbInterval> dM(n, m, 0);
         ArbInterval df = 1;
-    
-    
+        
+        Matrix<ArbInterval> dxs(n, 1, 0);
+        dxs.at(c, 0) = 1;
+
         for (int i = c; i <= n - 1; ++i) {
             ArbInterval t = xs.at(i, 0) * M.at(i, i);
-            ArbInterval dt = df / M.at(i, i);
-            dM.at(i, i) -= f * df / M.at(i, i);
+            ArbInterval dt = dxs.at(i, 0) / M.at(i, i);
+            dM.at(i, i) -= xs.at(i, 0) * dxs.at(i, 0) / M.at(i, i);
+            dM.at(i, n) = dt;
             
             for (int j = n - 1; j >= i + 1; --j) {
                 ArbInterval z = M.at(i, j) * xs.at(j, 0);
                 t = t + z;
                 
-                dM.at(i, j) += t * dt;
-                dt += M.at(i, j) * dt;
+                dM.at(i, j) -= xs.at(j, 0) * dt;
+                dxs.at(j, 0) -= M.at(i, j) * dt;
             }
-            dM.at(i, n) += dt;
         }
-    
     
         GaussInverse(M, dM);
         xs.at(c, 0) = ArbInterval(x.val(), ComputeError(init, dM));
