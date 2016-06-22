@@ -47,7 +47,7 @@ int main() {
     IntervalVar x3 = x1 * x0;
     IntervalVar x4 = x3 / x2;
     
-    ProxyIntervalResult x5;
+    IntervalResult x5;
     x5 = x4;
 
     std::cout << x5 << std::endl;
