@@ -35,18 +35,23 @@ Then you can build your own programs. Example program:
 using namespace interval;
 using namespace apost;
 
+using IntervalVar = ProxyInterval<ArbInterval>;
+using IntervalResult = ProxyIntervalResult;
+
 int main() {
-    ProxyInterval<ArbInterval> x0(ArbInterval(1, 0.01));
-    ProxyInterval<ArbInterval> x1(ArbInterval(2, 0.03));
-
+    IntervalVar x0(ArbInterval(1, 0.01));
+    IntervalVar x1(ArbInterval(2, 0.03));
     controller.init();
-    ProxyInterval<ArbInterval> x2 = x0 * x0;
-    ProxyInterval<ArbInterval> x3 = x1 * x0;
     
-    ProxyIntervalResult x4;
-    x4 = x3 / x2;
+    IntervalVar x2 = x0 * x0;
+    IntervalVar x3 = x1 * x0;
+    x3 = x3 * x0 + x2;
+    IntervalVar x4 = x3 / x2;
+    
+    ProxyIntervalResult x5;
+    x5 = x4;
 
-    std::cout << x4 << std::endl;
+    std::cout << x5 << std::endl;
 }
 ```
 Build and run:
