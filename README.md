@@ -38,19 +38,28 @@ using namespace apost;
 using IntervalVar = ProxyInterval<ArbInterval>;
 using IntervalResult = ProxyIntervalResult;
 
+template<class IntervalT>
+IntervalT det(Matrix<IntervalT> matrix) {
+    size_t n = matrix.nrow();
+ 
+    gauss_elimination(matrix);
+    
+    IntervalT d = IntervalT(1);
+    for (size_t i = 0; i < n; ++i)
+        d = d * matrix.at(i, i);
+
+    return d;
+}
+
 int main() {
-    IntervalVar x0(ArbInterval(1, 0.01));
-    IntervalVar x1(ArbInterval(2, 0.03));
+    Matrix<IntervalVar> A;
+    ... set A values ...
     controller.init();
     
-    IntervalVar x2 = x0 * x0;
-    IntervalVar x3 = x1 * x0;
-    IntervalVar x4 = x3 / x2;
-    
-    IntervalResult x5;
-    x5 = x4;
+    IntervalResult d;
+    d = det(A);
 
-    std::cout << x5 << std::endl;
+    std::cout << d << std::endl;
 }
 ```
 Build and run:
