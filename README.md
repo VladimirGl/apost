@@ -45,7 +45,6 @@ int main() {
     
     IntervalVar x2 = x0 * x0;
     IntervalVar x3 = x1 * x0;
-    x3 = x3 * x0 + x2;
     IntervalVar x4 = x3 / x2;
     
     ProxyIntervalResult x5;
