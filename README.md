@@ -1,6 +1,6 @@
 # apost
 
-Intarval Arithmetic with aposteriori error computation library.
+Interval Arithmetic library with aposteriori error computation.
 
 ### Installation
 
